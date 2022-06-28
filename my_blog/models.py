@@ -29,6 +29,8 @@ class Post(db.Model):
                             default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    image_file = db.Column(db.String(20), nullable=False,
+                           default='default.png')
 
     def __repr__(self):
         return f"Запись('{self.title}', '{self.date_posted}')"
