@@ -31,71 +31,41 @@
                 {% endif %}
             </div>
         </div>
-    {% for  %}
         <div class="blog-posts-wrapper">
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_1.jpg" alt="news 1" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
+            {% for post in posts.items %}
 
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_2.jpg" alt="news 2" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_3.jpg" alt="news 3" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_4.jpg" alt="news 4" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_5.jpg" alt="news 5" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
-            <article class="blog-post">
-                <a href="#!" class="blog-post-link">
-                    <img src="assets/images/News_6.jpg" alt="news 6" class="blog-post-thumbnail">
-                    <h5 class="blog-post-title">Design Conferences in 2019</h5>
-                </a>
-                <p class="blog-post-meta">
-                    <span class="post-published-date">28 DEC 2019</span>
-                    <a href="#!" class="post-comments">3 COMMENTS</a>
-                </p>
-            </article>
+                <article class="blog-post">
+                    <a href="{{ url_for('blog.post', post_id=post.id) }}" class="blog-post-link">
+                        <img src="blog_pics/{{ post.image_file }}" class="blog-post-thumbnail">
+
+                        <h5 class="blog-post-title">{{ post.title }}</h5>
+
+                    </a>
+                    <p class="blog-post-meta">
+                        <span class="post-published-date">{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</span>
+                        {#                    <a href="#!" class="post-comments">3 COMMENTS</a>#}
+                    </p>
+                </article>
+
+            {% endfor %}
+        </div>
+        <div class="pull-right">
+            {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if posts.page == page_num %}
+                        <a class="btn btn-success mb-4"
+                           href="{{ url_for('blog.allpost', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-success mb-4"
+                           href="{{ url_for('blog.allpost', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
         </div>
     </section>
+
 {% endblock %}
 {% block script %}
     <script src="assets/vendors/entry/jq.entry.min.js"></script>

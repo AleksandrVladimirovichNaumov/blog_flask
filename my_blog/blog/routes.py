@@ -13,7 +13,7 @@ blog = Blueprint('blog', __name__)
 def allpost():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()). \
-        paginate(page=page, per_page=5)
+        paginate(page=page, per_page=6)
     return render_template('blog.html', posts=posts)
 
 
@@ -34,13 +34,13 @@ def new_post():
                            title='Новый пост', form=form, legend='Новый пост')
 
 
-@blog.route("/post/<int:post_id>")
+@blog.route("/post_<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
 
-@blog.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@blog.route("/post_<int:post_id>_update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -60,7 +60,7 @@ def update_post(post_id):
                            form=form, legend='Обновление поста')
 
 
-@blog.route("/post/<int:post_id>/delete", methods=['POST'])
+@blog.route("/post_<int:post_id>_delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -69,4 +69,4 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Ваш пост был удален!', 'success')
-    return redirect(url_for('posts.allpost'))
+    return redirect(url_for('blog.allpost'))
