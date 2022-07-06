@@ -1,5 +1,6 @@
 from flask_bcrypt import Bcrypt
 from flask import Flask
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from my_blog.config import Config
@@ -9,6 +10,7 @@ from flask_bootstrap import Bootstrap
 db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+mail = Mail()
 
 
 def create_app():
@@ -19,16 +21,19 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
     bcrypt.init_app(app)
 
     from my_blog.main.routes import main
     from my_blog.users.routes import users
     from my_blog.blog.routes import blog
     from my_blog.portfolio.routes import portfolio
+    from my_blog.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(users)
     app.register_blueprint(blog)
     app.register_blueprint(portfolio)
+    app.register_blueprint(errors)
     bootstrap = Bootstrap(app)
 
     return app
