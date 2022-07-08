@@ -43,9 +43,15 @@
             </article>
             <article class="blog-post-text pull-left">
                 <p class="card-text">{{ post.content }}</p>
-                <small>{{ post.date_posted.strftime('%A, %d %B %Y %I:%M %p') }} <br> Author: <a class="mr-2"
-                                                                                      href="{{ url_for('users.user_posts', username=post.author.username) }}"
-                                                                                      style="margin: 0 auto">{{ post.author.username }}</a></small>
+                <small>{{ post.date_posted.strftime('%A, %d %B %Y %I:%M %p') }}
+
+                    <br> Author: <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}"
+                                    style="margin: 0 auto">{{ post.author.username }}</a>
+                <br>
+                    <img class="rounded-circle article-img" style="margin-right: 5px;"
+                         src="{{ url_for('static', filename='profile_pics/' +
+		post.author.image_file) }}">
+                </small>
             </article>
         </div>
 
